@@ -16,6 +16,10 @@ FROM debian:trixie-slim AS runtime
 ENV RUST_LOG=info
 ENV RUST_BACKTRACE=1
 
+RUN apt update && \
+    apt install -y ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /opt/openai-completions-proxy
 COPY --from=builder /usr/local/cargo/bin/openai-completions-proxy /usr/local/bin/openai-completions-proxy
 
