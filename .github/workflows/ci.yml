@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository_owner }}/openai-completions-proxy
+          images: ghcr.io/${{ github.repository_owner }}/openai-completions-proxy/openai-completions-proxy
           tags: |
             type=sha,format=short,prefix=,suffix=-{{date 'X'}}
 
