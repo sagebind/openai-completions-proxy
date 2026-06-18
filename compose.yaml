@@ -1,0 +1,7 @@
+services:
+  openai-completions-proxy:
+    build: .
+    environment:
+      LISTEN_ADDR: 0.0.0.0:3000
+    ports:
+      - "3000:3000"

@@ -22,17 +22,20 @@ use axum::{
     routing::post,
 };
 use eyre::Result;
+use std::env;
 use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
+    let listen_addr = env::var("LISTEN_ADDR").unwrap_or_else(|_| String::from("0.0.0.0:3000"));
+
     let app = Router::new()
         .route("/v1/completions", post(completions))
         .with_state(Client::new());
 
-    let listener = TcpListener::bind("0.0.0.0:3000").await?;
+    let listener = TcpListener::bind(listen_addr).await?;
     axum::serve(listener, app).await?;
 
     Ok(())
