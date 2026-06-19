@@ -30,9 +30,10 @@ async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
     let listen_addr = env::var("LISTEN_ADDR").unwrap_or_else(|_| String::from("0.0.0.0:3000"));
+    let api_path_prefix = env::var("API_PATH_PREFIX").unwrap_or_else(|_| String::from("/v1"));
 
     let app = Router::new()
-        .route("/v1/completions", post(completions))
+        .route(&format!("{api_path_prefix}/completions"), post(completions))
         .with_state(Client::new());
 
     let listener = TcpListener::bind(listen_addr).await?;
