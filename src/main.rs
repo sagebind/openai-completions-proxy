@@ -53,6 +53,8 @@ async fn completions(
     headers.remove(HOST);
     headers.remove(ORIGIN);
 
+    tracing::trace!(?headers, "request received");
+
     // Forward the request to the provider.
     match client
         .chat()
