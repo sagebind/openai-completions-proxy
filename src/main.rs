@@ -17,7 +17,9 @@ use axum::{
     extract::State,
     http::{
         HeaderMap, StatusCode,
-        header::{CONTENT_ENCODING, CONTENT_LENGTH, HOST, ORIGIN},
+        header::{
+            ACCEPT, ACCEPT_CHARSET, ACCEPT_ENCODING, CONTENT_ENCODING, CONTENT_LENGTH, HOST, ORIGIN,
+        },
     },
     routing::post,
 };
@@ -48,6 +50,9 @@ async fn completions(
     Json(request): Json<CreateCompletionRequest>,
 ) -> Result<Json<CreateCompletionResponse>, StatusCode> {
     // Remove headers that should not be forwarded upstream.
+    headers.remove(ACCEPT);
+    headers.remove(ACCEPT_CHARSET);
+    headers.remove(ACCEPT_ENCODING);
     headers.remove(CONTENT_ENCODING);
     headers.remove(CONTENT_LENGTH);
     headers.remove(HOST);
